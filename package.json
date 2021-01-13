@@ -1,0 +1,24 @@
+{
+  "name": "preparatorul",
+  "version": "1.0.3",
+  "description": "A CLI to update yout current project with different files used daily",
+  "bin": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/"
+  },
+  "author": "Alexandru Campulungeanu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alex-campulungeanu/preparatorul.git"
+  },
+  "dependencies": {
+    "inquirer": "^7.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
+  }
+}

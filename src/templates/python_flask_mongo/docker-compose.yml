@@ -1,0 +1,46 @@
+version: '3.8'
+
+x-dev:
+    &proxy_conf
+    http_proxy: "${HTTP_PROXY}"
+    https_proxy: "${HTTPS_PROXY}"
+services:
+    web:
+        container_name: ${APP_NAME}_rest
+        build:
+            context: .
+            dockerfile: Dockerfile_web
+            args: *proxy_conf
+        image: backend_image_${APP_NAME}
+        volumes:
+        - '.:/app'
+        ports:
+        - 5001:5000 
+        restart: always
+        # command: tail -f /dev/null
+        environment:
+        - FLASK_ENV=development.docker
+        - FLASK_DEBUG=1
+        - MONGODB_HOSTNAME=${APP_NAME}_db
+        - http_proxy=${HTTP_PROXY}
+        - https_proxy=${HTTPS_PROXY}
+    db:
+        container_name: ${APP_NAME}_db
+        build:
+            context: .
+            dockerfile: Dockerfile_db
+            args: *proxy_conf
+        image: db_image_${APP_NAME}
+        environment:
+            MONGO_INITDB_DATABASE: ${APP_NAME}_db
+            http_proxy: "${HTTP_PROXY}"
+            https_proxy: "${HTTPS_PROXY}"
+        volumes:
+        - mongodb_data_container:/data/db
+        - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+        ports:
+        - 27017:27017
+        restart: always
+volumes:
+    mongodb_data_container:
+        name: ${APP_NAME}_db_container

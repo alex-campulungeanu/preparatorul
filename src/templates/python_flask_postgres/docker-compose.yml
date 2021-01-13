@@ -1,0 +1,40 @@
+version: '3.8'
+
+x-dev:
+    &proxy_conf
+    http_proxy: "${HTTP_PROXY}"
+    https_proxy: "${HTTPS_PROXY}"
+
+services:
+    web:
+        container_name: ${APP_NAME}_rest
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args: *proxy_conf
+        image: backend_image_${APP_NAME}
+        volumes:
+        - '.:/app'
+        ports:
+        - 5000:5000 
+        restart: always
+        environment:
+            << : *proxy_conf
+            FLASK_ENV: development
+            FLASK_DEBUG: 1
+    db:
+        container_name: ${APP_NAME}_db
+        image: postgres
+        environment:
+            << : *proxy_conf
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: ${DB_NAME}
+        volumes:
+        - database-data:/var/lib/postgresql/data
+        ports:
+        - 5432:5432
+        restart: always
+volumes:
+    database-data:
+        name: ${APP_NAME}_db_volume

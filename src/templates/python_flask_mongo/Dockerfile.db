@@ -1,0 +1,14 @@
+FROM mongo:latest
+
+ARG http_proxy
+ARG https_proxy
+
+ENV http_proxy ${http_proxy}
+ENV https_proxy ${https_proxy}
+
+RUN apt-get update
+RUN apt install -y vim
+RUN \
+    echo 'alias ls="ls --color=auto"' >> /root/.bashrc
+
+CMD ["tail", "-f", "/dev/null"]
