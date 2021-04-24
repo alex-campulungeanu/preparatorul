@@ -6,7 +6,7 @@ x-dev:
   https_proxy: "${HTTPS_PROXY}"
 
 services:
-  apps:
+  app:
     container_name: ${APP_NAME}
     build:
       context: .
@@ -14,15 +14,30 @@ services:
       args: *proxy_conf
     environment:
       CHOKIDAR_USEPOLLING: "true"
+      # TS_NODE_FILES: "true" 
+      TS_NODE_TRANSPILE_ONLY: "true"
       http_proxy: "${HTTP_PROXY}"
       https_proxy: "${HTTPS_PROXY}"
     image: ${APP_NAME}
     volumes:
       - ./:/app
       - /app/node_modules
-    ports:
-      - 3010:3000
-      - 3011:3001
-      - 3012:3002
     restart: always
     # command: tail -f /dev/null
+  db:
+      container_name: ${APP_NAME}_db
+      image: postgres
+      environment:
+          http_proxy: "${HTTP_PROXY}"
+          https_proxy: "${HTTPS_PROXY}"
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "postgres"
+          POSTGRES_DB: ${APP_NAME}
+      volumes:
+      - database-data:/var/lib/postgresql/data
+      ports:
+      - 25432:5432
+      restart: always
+volumes:
+  database-data: 
+      name: ${APP_NAME}_db_volume
