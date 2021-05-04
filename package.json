@@ -1,6 +1,6 @@
 {
   "name": "preparatorul",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A CLI to update yout current project with different files used daily",
   "bin": "./src/index.js",
   "scripts": {
