@@ -1,0 +1,7 @@
+[user]
+	name = <name>
+	email = <email>
+# [credential]
+# 	helper = store
+[status]
+	showuntrackedfiles = all
