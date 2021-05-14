@@ -1,0 +1,26 @@
+version: '3.8'
+
+x-dev:
+  &proxy_conf
+  http_proxy: "${HTTP_PROXY}"
+  https_proxy: "${HTTPS_PROXY}"
+
+services:
+  app:
+    container_name: ${APP_NAME}
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    #   args: *proxy_conf
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      # TS_NODE_FILES: "true" 
+      TS_NODE_TRANSPILE_ONLY: "true"
+      http_proxy: "${HTTP_PROXY}"
+      https_proxy: "${HTTPS_PROXY}"
+    image: node:14-buster
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    restart: always
+    command: tail -f /dev/null

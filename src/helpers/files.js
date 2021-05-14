@@ -28,7 +28,7 @@ const getFilesFromTemplate = (template) => {
 }
 
 const getTemplatesList = () => {
-  let templatesList = fs.readdirSync(path.join(getSrcRoot(), appConstants.templatesDir))
+  const templatesList = fs.readdirSync(path.join(getSrcRoot(), appConstants.templatesDir))
   return templatesList
 }
 

@@ -1,17 +1,17 @@
 #! /usr/bin/env node
 
 const inquirer = require('inquirer')
-const fs =require('fs')
+const fs = require('fs')
 const path = require('path')
 
 const questions = require('./helpers/questions')
 const filesHelper = require('./helpers/files')
 const appConstants = require('./config/constants')
 
-questions.askProjectType().then( type => {
+questions.askProjectType().then((type) => {
   const templateFiles = filesHelper.getFilesFromTemplate(type.projectType)
   const choices = []
-  templateFiles.forEach(file => {
+  templateFiles.forEach((file) => {
     if (fs.existsSync(path.join(filesHelper.getCurrentDirectory(), file))) {
       choices.push({
         name: `${file} (already exists !)`,
@@ -21,7 +21,7 @@ questions.askProjectType().then( type => {
       choices.push({
         name: file,
         value: file,
-        checked: true
+        checked: true,
       })
     }
   })
@@ -50,7 +50,7 @@ questions.askProjectType().then( type => {
       // copy file from package module tu current directory where package is called
       const filePath = path.join(__dirname, appConstants.templatesDir, type.projectType, file);
       const newPath = path.join(path.join(filesHelper.getCurrentDirectory(), file))
-      fs.copyFileSync(filePath, newPath)
+      // fs.copyFileSync(filePath, newPath)
     })
     console.log('FILE copied !');
   });

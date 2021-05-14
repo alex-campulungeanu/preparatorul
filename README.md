@@ -1,20 +1,64 @@
-# preparatorul
 
-A simple node CLI to update a project with different configurations based on the project type. 
+<h1 align="center">
+<br>
+preparatorul
+</h1>
 
-## Installation
+<p align="center">cook your project</p>
+
+<hr />
+<br />
+
+
+## 📚 Project Definition
+
+NodeJS cli tool to populate project with most used files(eg: Docker configuration)
+
+
+## 🛠️ Features
+
+Technologies used:
+
+- ⚛️ **NodeJS**
+- 🌐 **Inquirere** — Library to create CLI tools
+- 🌐 **Docker** - Containerization sistem
+
+
+## 🚀 Instalation
 
 ```sh
 npm install -g preparatorul
 ```
+OR 
+```sh
+npx preparatorul
+```
 
-## Usage
 
+## 🔋 Commands
+
+Go to your project and
 ```sh
 preparatorul
 ```
 
-## Custom configuration
+## 💻 Development
+
+run 
+```sh
+node src/index.js
+```
+```sh
+npm run lint
+```
+
+
+## 🌐 Docker development setup
+
+- run docker-compose up -d inside root
+
+
+## 🔌 Custom configuration
 The package can be configured according to the needs of each one.
 
 
@@ -31,3 +75,5 @@ eg:
 ```
     /usr/local/lib/node_modules/preparatorul/src/templates
 ```
+
+

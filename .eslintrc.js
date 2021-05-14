@@ -12,6 +12,7 @@ module.exports = {
   },
   rules: {
     "semi": 'off',
-    "no-multiple-empty-lines": "off"
+    "no-multiple-empty-lines": "off",
+    "indent": "off"
   },
 };
