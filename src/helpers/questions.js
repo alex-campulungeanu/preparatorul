@@ -16,6 +16,42 @@ const askProjectType = async () => {
   return type
 }
 
+const askWhatFilesToCopy = async (choices) => {
+  const files = await inquirer
+    .prompt([
+      {
+        type: 'checkbox',
+        message: 'Select files to copy',
+        name: 'files',
+        pageSize: choices.length,
+        choices: 
+          // new inquirer.Separator(' = The Files = '),
+          choices
+        ,
+        validate: function (answer) {
+          if (answer.length < 1) {
+            return 'You must choose at least one file.';
+          }
+          return true;
+        },
+      },
+    ])
+  return files
+}
+
+const confirm = async (message) => {
+  const response = await inquirer
+    .prompt({
+      name: 'confirm',
+      type: 'confirm',
+      message: message
+    })
+  console.log(response)
+  return response
+}
+
 module.exports = {
-    askProjectType
+    askProjectType,
+    askWhatFilesToCopy,
+    confirm
 }
