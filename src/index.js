@@ -2,6 +2,7 @@
 
 const fs = require('fs')
 const path = require('path')
+const chalk = require('chalk')
 
 const questions = require('./helpers/questions')
 const filesHelper = require('./helpers/files')
@@ -14,12 +15,12 @@ const main = async () => {
   templateFiles.forEach((file) => {
     if (fs.existsSync(path.join(filesHelper.getCurrentDirectory(), file))) {
       choices.push({
-        name: `${file} (already exists !)`,
+        name: `${file} ${chalk.red('already exists / will be rewritten !')}`,
         value: file,
       })
     } else {
       choices.push({
-        name: file,
+        name: `${chalk.green(file)}`,
         value: file,
         checked: true,
       })
@@ -37,13 +38,17 @@ const main = async () => {
       const newPath = path.join(path.join(filesHelper.getCurrentDirectory(), file))
       fs.copyFileSync(filePath, newPath)
     })
+    return Promise.resolve('Files copied !')
   } else {
-    throw 'Abort, nothing was saved'
+    // throw 'Abort, nothing was saved'
+    return Promise.resolve(`You've changed your mind !`)
   }
 
 }
 
+//clear the terminal before starting
+console.clear()
 main()
-  .then(() =>  console.log('FILE copied !'))
-  .catch(err => console.log('Something happend !', err)) //TODO: separate user error vs node error
+  .then((r) =>  console.log(r))
+  .catch(err => console.log('Ooops, something happend !')) //TODO: separate user error vs node error
 

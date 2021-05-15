@@ -46,7 +46,6 @@ const confirm = async (message) => {
       type: 'confirm',
       message: message
     })
-  console.log(response)
   return response
 }
 
