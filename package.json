@@ -4,14 +4,18 @@
   "description": "A CLI to update yout current project with different files used daily",
   "author": "Alexandru Campulungeanu",
   "license": "MIT",
-  "bin": "./src/index.js",
+  "main": "./src/index.js",
   "scripts": {
+    "start": "node ./dist/index.js || true",
+    "dev": "ts-node ./src/index.ts",
+    "dev:watch": "nodemon",
+    "build": "tsc -p tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/"
   },
   "files": [
-		"src"
-	],
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/alex-campulungeanu/preparatorul.git"
@@ -20,8 +24,12 @@
     "inquirer": "^7.3.3"
   },
   "devDependencies": {
+    "@types/node": "^15.3.0",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
   }
 }
