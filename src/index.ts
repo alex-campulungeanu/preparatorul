@@ -1,12 +1,20 @@
 #! /usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-const chalk = require('chalk')
+// const fs = require('fs')
+// const path = require('path')
+// const chalk = require('chalk')
 
-const questions = require('./helpers/questions')
-const filesHelper = require('./helpers/files')
-const appConstants = require('./config/constants')
+// const questions = require('./helpers/questions')
+// const filesHelper = require('./helpers/files')
+// const appConstants = require('./config/constants')
+
+import * as fs from 'fs'
+import path from 'path'
+import chalk from 'chalk'
+
+import questions from './helpers/questions'
+import filesHelper from './helpers/files'
+import appConstants from './config/constants'
 
 interface Choices {
   name: string,
