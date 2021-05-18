@@ -1,6 +1,4 @@
-// const fs = require('fs');
 import fs from 'fs'
-// const path = require('path');
 import path from 'path'
 
 export const appConstants = require('../config/constants')
@@ -16,16 +14,16 @@ export const getCurrentDirectoryBase = () => {
 
 export const getSrcRoot = () => path.dirname(require.main.filename);
 
-export const directoryExists = (filePath) => {
+export const directoryExists = (filePath: string): boolean => {
   return fs.existsSync(filePath)
 }
 
-const getTemplatePath = (template) => {
+const getTemplatePath = (template: string): string => {
   return path.join(getSrcRoot(), appConstants.templatesDir, template)
 }
 
-export const getFilesFromTemplate = (template) => {
-  const templatePath = getTemplatePath(template)
+export const getFilesFromTemplate = (template: string) => {
+  const templatePath: string = getTemplatePath(template)
   return fs.readdirSync(templatePath)
 }
 
@@ -33,13 +31,3 @@ export const getTemplatesList = () => {
   const templatesList = fs.readdirSync(path.join(getSrcRoot(), appConstants.templatesDir))
   return templatesList
 }
-
-
-// module.exports = {
-//   getSrcRoot,
-//   getCurrentDirectory,
-//   getCurrentDirectoryBase,
-//   directoryExists,
-//   getFilesFromTemplate,
-//   getTemplatesList
-// }

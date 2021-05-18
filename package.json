@@ -4,14 +4,12 @@
   "description": "A CLI to update yout current project with different files used daily",
   "author": "Alexandru Campulungeanu",
   "license": "MIT",
-  "main": "./src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./dist/index.js || true",
+    "build": "rimraf ./build && tsc -p tsconfig.json",
+    "start": "npm run build && node build/index.js",
     "dev": "ts-node ./src/index.ts",
-    "dev:watch": "nodemon",
-    "build": "tsc -p tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src/"
+    "lint": "eslint . --ext .ts"
   },
   "files": [
     "dist"
@@ -29,6 +27,7 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "nodemon": "^2.0.7",
+    "rimraf": "^3.0.2",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   }

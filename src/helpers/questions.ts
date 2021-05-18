@@ -1,11 +1,9 @@
-// const inquirer = require('inquirer')
 import inquirer from 'inquirer'
 
-// const filesHelper = require('../helpers/files')
-import filesHelper from '../helpers/files'
+import {getTemplatesList} from './files'
 
 export const askProjectType = async () => {
-  const projectTypes = filesHelper.getTemplatesList()
+  const projectTypes = getTemplatesList()
   const type = await inquirer
     .prompt(
       {
@@ -41,7 +39,7 @@ export const askWhatFilesToCopy = async (choices) => {
   return files
 }
 
-export const confirm = async (message) => {
+export const askConfirm = async (message: string) => {
   const response = await inquirer
     .prompt({
       name: 'confirm',
@@ -50,9 +48,3 @@ export const confirm = async (message) => {
     })
   return response
 }
-
-// module.exports = {
-//     askProjectType,
-//     askWhatFilesToCopy,
-//     confirm
-// }

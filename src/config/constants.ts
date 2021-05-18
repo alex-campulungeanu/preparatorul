@@ -3,9 +3,4 @@
 //   python_flask_mongo: 'python_flask_mongo'
 // }
 
-const templatesDir = 'templates'
-
-module.exports = {
-  // projectType, 
-  templatesDir
-}
+export const templatesDir = 'templates'

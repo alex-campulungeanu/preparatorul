@@ -1,20 +1,12 @@
 #! /usr/bin/env node
 
-// const fs = require('fs')
-// const path = require('path')
-// const chalk = require('chalk')
-
-// const questions = require('./helpers/questions')
-// const filesHelper = require('./helpers/files')
-// const appConstants = require('./config/constants')
-
-import * as fs from 'fs'
+import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
 
-import questions from './helpers/questions'
-import filesHelper from './helpers/files'
-import appConstants from './config/constants'
+import { askProjectType, askConfirm, askWhatFilesToCopy } from './helpers/questions'
+import { getFilesFromTemplate, getCurrentDirectory} from './helpers/files'
+import * as appConstants from './config/constants'
 
 interface Choices {
   name: string,
@@ -23,11 +15,11 @@ interface Choices {
 }
 
 const main = async (): Promise<string> => {
-  const type = await questions.askProjectType()
-  const templateFiles = filesHelper.getFilesFromTemplate(type.projectType)
+  const type = await askProjectType()
+  const templateFiles = getFilesFromTemplate(type.projectType)
   const choices: Array<Choices> = []
   templateFiles.forEach((file: string) => {
-    if (fs.existsSync(path.join(filesHelper.getCurrentDirectory(), file))) {
+    if (fs.existsSync(path.join(getCurrentDirectory(), file))) {
       choices.push({
         name: `${file} ${chalk.red('already exists / will be rewritten !')}`,
         value: file,
@@ -42,14 +34,14 @@ const main = async (): Promise<string> => {
   })
 
   // ask what files should be copied
-  const filesToCopy = await questions.askWhatFilesToCopy(choices)
+  const filesToCopy = await askWhatFilesToCopy(choices)
   
-  const resp = await questions.confirm('Are you sure you want to save the files ?')
+  const resp = await askConfirm('Are you sure you want to save the files ?')
   if(resp.confirm) {
     // copy files from package module tu current directory where package is called
     filesToCopy.files.forEach((file: string) => {
       const filePath = path.join(__dirname, appConstants.templatesDir, type.projectType, file);
-      const newPath = path.join(path.join(filesHelper.getCurrentDirectory(), file))
+      const newPath = path.join(path.join(getCurrentDirectory(), file))
       fs.copyFileSync(filePath, newPath)
     })
     return Promise.resolve('Files copied !')
