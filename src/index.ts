@@ -44,7 +44,7 @@ const main = async (): Promise<string> => {
       const newPath = path.join(path.join(getCurrentDirectory(), file))
       fs.copyFileSync(filePath, newPath)
     })
-    return Promise.resolve('Files copied !')
+    return Promise.resolve('Files copied !') // TODO: print a list with copied files
   } else {
     return Promise.resolve(`You've changed your mind !`)
   }

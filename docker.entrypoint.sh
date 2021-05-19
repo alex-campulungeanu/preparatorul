@@ -24,5 +24,3 @@ if [ ! -f "$DUMMY_FILE" ]; then
 else 
     echo "$DUMMY_FILE exist."
 fi
-
-tail -f /dev/null

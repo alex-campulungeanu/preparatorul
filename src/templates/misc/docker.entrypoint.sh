@@ -25,4 +25,4 @@ else
     echo "$DUMMY_FILE exist."
 fi
 
-tail -f /dev/null
+# tail -f /dev/null
