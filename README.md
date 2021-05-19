@@ -52,6 +52,11 @@ node src/index.js
 npm run lint
 ```
 
+## 💻 NPM publish
+- increment "version": in package.json
+- push to master branch
+- npm-publish.yml will do the work
+
 
 ## 🌐 Docker development setup
 
