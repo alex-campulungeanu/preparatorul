@@ -3,10 +3,14 @@
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
+import figlet from 'figlet'
 
 import { askProjectType, askConfirm, askWhatFilesToCopy } from './helpers/questions'
 import { getFilesFromTemplate, getCurrentDirectory} from './helpers/files'
 import * as appConstants from './config/constants'
+import { name, messages } from './helpers/messages'
+
+
 
 interface Choices {
   name: string,
@@ -14,7 +18,15 @@ interface Choices {
   checked?: boolean
 }
 
-const main = async (): Promise<string> => {
+const init = async (): Promise<string> => {
+  const { welcome, thanks } = messages
+
+  const asciiArt = figlet.textSync(name, {
+    font: 'ANSI Shadow'
+  })
+  console.log(`\n ${chalk.green(asciiArt)}`)
+  console.log(`${welcome} \n`)
+
   const type = await askProjectType()
   const templateFiles = getFilesFromTemplate(type.projectType)
   const choices: Array<Choices> = []
@@ -44,7 +56,7 @@ const main = async (): Promise<string> => {
       const newPath = path.join(path.join(getCurrentDirectory(), file))
       fs.copyFileSync(filePath, newPath)
     })
-    return Promise.resolve('Files copied !') // TODO: print a list with copied files
+    return Promise.resolve(`Files saved, ${thanks}`) // TODO: print a list with copied files
   } else {
     return Promise.resolve(`You've changed your mind !`)
   }
@@ -53,7 +65,7 @@ const main = async (): Promise<string> => {
 
 //clear the terminal before starting
 console.clear()
-main()
+init()
   .then((r) =>  console.log(r))
   .catch(err => console.log('Ooops, something happend !')) //TODO: separate user error vs node error
 

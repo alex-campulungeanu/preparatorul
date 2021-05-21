@@ -7,8 +7,8 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run clean-build && tsc -p tsconfig.json && npm run copy-templates",
-    "start:prod": "npm run build && node build/index.js",
-    "start:dev": "ts-node ./src/index.ts",
+    "prod": "npm run build && node build/index.js",
+    "dev": "ts-node ./src/index.ts",
     "clean-build": "rimraf ./build",
     "copy-templates": "ts-node ./src/copyTemplateFiles.ts",
     "lint": "eslint . --ext .ts"
@@ -24,9 +24,11 @@
     "url": "https://github.com/alex-campulungeanu/preparatorul.git"
   },
   "dependencies": {
+    "figlet": "^1.5.0",
     "inquirer": "^7.3.3"
   },
   "devDependencies": {
+    "@types/figlet": "^1.5.1",
     "@types/node": "^15.3.0",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.2.1",
