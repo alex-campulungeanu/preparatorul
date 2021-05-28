@@ -7,7 +7,7 @@ if [ ! -f "$DUMMY_FILE" ]; then
   echo 'Dummy file is not present, start cooking container'
   touch $DUMMY_FILE
   apt-get update
-  apt install -y vim
+  apt install -y vim tmux locales-all
   echo 'alias ls="ls --color=auto"' >> /root/.bashrc && \
   echo 'PS1="\[\033[1;33m\][\u@\h \W >>>] \$ \[\033[0m\]"' >> /root/.bashrc
 
