@@ -10,8 +10,6 @@ import { getFilesFromTemplate, getCurrentDirectory} from './helpers/files'
 import * as appConstants from './config/constants'
 import { name, messages } from './helpers/messages'
 
-
-
 interface Choices {
   name: string,
   value: string,
