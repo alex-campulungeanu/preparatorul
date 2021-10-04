@@ -4,6 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
 import figlet from 'figlet'
+import boxen from 'boxen'
 
 import { askProjectType, askConfirm, askWhatFilesToCopy } from './helpers/questions'
 import { getFilesFromTemplate, getCurrentDirectory} from './helpers/files'
@@ -22,7 +23,14 @@ const init = async (): Promise<string> => {
   const asciiArt = figlet.textSync(name, {
     font: 'ANSI Shadow'
   })
-  console.log(`\n ${chalk.green(asciiArt)}`)
+  console.log(boxen(`\n ${chalk.green(asciiArt)}`, {
+      margin: 1,
+      // float: "center",
+      padding: 1,
+      borderStyle: "round",
+      borderColor: "gray",
+    }
+  ))
   console.log(`${welcome} \n`)
 
   const type = await askProjectType()
@@ -54,7 +62,27 @@ const init = async (): Promise<string> => {
       const newPath = path.join(path.join(getCurrentDirectory(), file))
       fs.copyFileSync(filePath, newPath)
     })
-    return Promise.resolve(`Files saved, ${thanks}`) // TODO: print a list with copied files
+    const filesList = filesToCopy.files.map( file => {
+      return `${chalk.green('*')} ${file}`
+    }).join('\n')
+    const cardData = {
+      header: chalk.bold.green(`Files copied`),
+      files: filesList
+    }
+    const filesBox = boxen(
+      [
+        `${cardData.header}`,
+        ``,
+        `${cardData.files}`,
+      ].join('\n'), {
+        margin: 1,
+        // float: "center",
+        padding: 1,
+        borderStyle: "single",
+        borderColor: "green",
+      }
+    )
+    return Promise.resolve(filesBox) // TODO: print a list with copied files
   } else {
     return Promise.resolve(`You've changed your mind !`)
   }
@@ -66,4 +94,3 @@ console.clear()
 init()
   .then((r) =>  console.log(r))
   .catch(err => console.log('Ooops, something happend !')) //TODO: separate user error vs node error
-

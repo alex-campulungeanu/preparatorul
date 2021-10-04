@@ -1,6 +1,7 @@
 import inquirer from 'inquirer'
 
 import {getTemplatesList} from './files'
+import {FilesToCopy} from '../interfaces/Files'
 
 export const askProjectType = async () => {
   const projectTypes = getTemplatesList()
@@ -17,7 +18,7 @@ export const askProjectType = async () => {
 }
 
 export const askWhatFilesToCopy = async (choices) => {
-  const files = await inquirer
+  const files: FilesToCopy = await inquirer
     .prompt([
       {
         type: 'checkbox',

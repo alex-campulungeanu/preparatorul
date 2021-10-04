@@ -24,6 +24,7 @@
     "url": "https://github.com/alex-campulungeanu/preparatorul.git"
   },
   "dependencies": {
+    "boxen": "^5.0.1",
     "figlet": "^1.5.0",
     "inquirer": "^7.3.3"
   },
