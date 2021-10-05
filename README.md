@@ -81,4 +81,5 @@ eg:
     /usr/local/lib/node_modules/preparatorul/src/templates
 ```
 
-
+##  TODO
+- [] automatic version update when push to master (npm --no-git-tag-version version minor, patch etc) / check from the last push if version was changed

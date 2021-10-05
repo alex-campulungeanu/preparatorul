@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# . "$(dirname "$0")/_/husky.sh"
+
+# set -e
+
+#when pushing to master a new version must be incremented
+BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+VERSION_TYPE_VALUES="patch, minor, major"
+
+git checkout .
+
+isValidVersionType () {
+    if [ "$1" == "patch" -o "$1" == "minor" -o "$1" == "major" ]; then
+        return 1
+    fi
+    return 0
+}
+
+getVersionFromCommit () {
+    PACKAGE_VERSION=$(git show $1:./package.json \
+    | grep version \
+    | head -1 \
+    | awk -F: '{ print $2 }' \
+    | sed 's/[",]//g')
+    echo $PACKAGE_VERSION
+} 
+
+if [ "$BRANCH" == "master" ]; then
+    echo "[+] Checking package.json version on $BRANCH"
+    CURRENT_VERSION_COMMIT=$(git log --oneline origin/master^..HEAD --pretty=format:"%h" --no-patch | awk 'NR==1')
+    INITIAL_VERSION_COMMIT=$(git log --oneline origin/master^..HEAD --pretty=format:"%h" --no-patch | tail -1)
+
+    PACKAGE_VERSION_CURRENT=$(getVersionFromCommit $CURRENT_VERSION_COMMIT)
+    PACKAGE_VERSION_INITIAL=$(getVersionFromCommit $INITIAL_VERSION_COMMIT)
+
+    echo "[+] current version $PACKAGE_VERSION_CURRENT"
+    echo "[+] current comit $CURRENT_VERSION_COMMIT"
+    echo "[+] initial version $PACKAGE_VERSION_INITIAL"
+    echo "[+] initial commit $INITIAL_VERSION_COMMIT"
+
+    if [ "$PACKAGE_VERSION_CURRENT" == "$PACKAGE_VERSION_INITIAL" ] && [ "${CURRENT_VERSION_COMMIT}" != "${INITIAL_VERSION_COMMIT}" ] ; then
+        echo "[+] Start increment version"
+        #https://stackoverflow.com/questions/63449582/husky-pre-commit-hook-starts-the-bash-script-but-does-not-wait-for-user-select
+        if [ -t 1 ]; then
+            exec < /dev/tty
+        fi
+        valid_version_type=0
+        while [ $valid_version_type -eq 0 ]; do
+            read -p "Set version type - $VERSION_TYPE_VALUES: " version_type_ret
+            isValidVersionType $version_type_ret
+            valid_version_type=$?
+        done
+        echo "[+] Version type set: $version_type_ret"
+        npm --no-git-tag-version version $version_type_ret
+        git add package.json package-lock.json
+        git commit -m version
+    fi
+fi
