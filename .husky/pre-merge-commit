@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# . "$(dirname "$0")/_/husky.sh"
+. "$(dirname "$0")/_/husky.sh"
 
-# set -e
+set -e
 
 #when pushing to master a new version must be incremented
+echo "[+] Start pre-merge"
 BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 VERSION_TYPE_VALUES="patch, minor, major"
-
-git checkout .
+PROTECTED_BRANCH='test'
 
 isValidVersionType () {
     if [ "$1" == "patch" -o "$1" == "minor" -o "$1" == "major" ]; then
@@ -26,10 +26,12 @@ getVersionFromCommit () {
     echo $PACKAGE_VERSION
 } 
 
-if [ "$BRANCH" == "master" ]; then
+
+if [ "$BRANCH" == "$PROTECTED_BRANCH" ]; then
+    git checkout .
     echo "[+] Checking package.json version on $BRANCH"
-    CURRENT_VERSION_COMMIT=$(git log --oneline origin/master^..HEAD --pretty=format:"%h" --no-patch | awk 'NR==1')
-    INITIAL_VERSION_COMMIT=$(git log --oneline origin/master^..HEAD --pretty=format:"%h" --no-patch | tail -1)
+    CURRENT_VERSION_COMMIT=$(git log --oneline $PROTECTED_BRANCH/master^..HEAD --pretty=format:"%h" --no-patch | awk 'NR==1')
+    INITIAL_VERSION_COMMIT=$(git log --oneline $PROTECTED_BRANCH/master^..HEAD --pretty=format:"%h" --no-patch | tail -1)
 
     PACKAGE_VERSION_CURRENT=$(getVersionFromCommit $CURRENT_VERSION_COMMIT)
     PACKAGE_VERSION_INITIAL=$(getVersionFromCommit $INITIAL_VERSION_COMMIT)

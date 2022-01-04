@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# . "$(dirname "$0")/_/husky.sh"
+
+# set -e
+
+echo "ENTER PRE-COMMIT"
+
+PROTECTED_BRANCH='test2'
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$branch" = "$PROTECTED_BRANCH" ]; then
+  echo "You can't commit directly to $PROTECTED_BRANCH branch"
+  exit 1
+fi

@@ -82,4 +82,5 @@ eg:
 ```
 
 ##  TODO
-- [] automatic version update when push to master (npm --no-git-tag-version version minor, patch etc) / check from the last push if version was changed
+- [ ] increment version only when merging to dev
+- [X] automatic version update when push to master (npm --no-git-tag-version version minor, patch etc) / check from the last push if version was changed
