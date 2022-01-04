@@ -8,7 +8,7 @@ set -e
 echo "[+] Start pre-merge"
 BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 VERSION_TYPE_VALUES="patch, minor, major"
-PROTECTED_BRANCH='test'
+PROTECTED_BRANCH=("master" "dev")
 
 isValidVersionType () {
     if [ "$1" == "patch" -o "$1" == "minor" -o "$1" == "major" ]; then
@@ -27,7 +27,8 @@ getVersionFromCommit () {
 } 
 
 
-if [ "$BRANCH" == "$PROTECTED_BRANCH" ]; then
+if [[ " ${PROTECTED_BRANCH[*]} " =~ " ${BRANCH} " ]]; then
+# if [ "$BRANCH" == "$PROTECTED_BRANCH" ]; then
     git checkout .
     echo "[+] Checking package.json version on $BRANCH"
     CURRENT_VERSION_COMMIT=$(git log --oneline $PROTECTED_BRANCH/master^..HEAD --pretty=format:"%h" --no-patch | awk 'NR==1')

@@ -2,15 +2,16 @@
 
 # . "$(dirname "$0")/_/husky.sh"
 
-# set -e
+set -e
 
 echo "ENTER PRE-COMMIT"
 
-PROTECTED_BRANCH='test2'
+# PROTECTED_BRANCH=("master" "dev")
+PROTECTED_BRANCH=("fake")
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
-branch="$(git rev-parse --abbrev-ref HEAD)"
-
-if [ "$branch" = "$PROTECTED_BRANCH" ]; then
-  echo "You can't commit directly to $PROTECTED_BRANCH branch"
+if [[ " ${PROTECTED_BRANCH[*]} " =~ " ${BRANCH} " ]]; then
+# if [ "$branch" = "$PROTECTED_BRANCH" ]; then
+  echo "You can't commit directly to protected branch "
   exit 1
 fi
