@@ -1,0 +1,19 @@
+version: '3.8'
+
+x-dev:
+  &proxy_conf
+  http_proxy: "${HTTP_PROXY}"
+  https_proxy: "${HTTPS_PROXY}"
+
+services:
+  infra:
+    container_name: aws_tf
+    image: hashicorp/terraform
+    environment:
+      http_proxy: "${HTTP_PROXY}"
+      https_proxy: "${HTTPS_PROXY}"
+    volumes:
+      - ./:/infra
+      - 'C:\Users\${WINDOWS_USER}\.aws\credentials/:/root/.aws/credentials'
+    command: tail -f /dev/null
+    working_dir: /infra
