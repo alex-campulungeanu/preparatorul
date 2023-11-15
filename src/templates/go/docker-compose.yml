@@ -1,0 +1,23 @@
+version: '3.8'
+
+x-dev:
+    &proxy_conf
+    http_proxy: "${HTTP_PROXY}"
+    https_proxy: "${HTTPS_PROXY}"
+    
+services:
+    test:
+        container_name: go_test
+        # image: golang:bullseye
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - './:/app'
+        restart: always
+        command: tail -f /dev/null
+        working_dir: '/app'
+        environment:
+            << : *proxy_conf
+
+    

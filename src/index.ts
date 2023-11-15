@@ -3,35 +3,16 @@
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
-import figlet from 'figlet'
 import boxen from 'boxen'
 
 import { askProjectType, askConfirm, askWhatFilesToCopy } from './helpers/questions'
 import { getFilesFromTemplate, getCurrentDirectory} from './helpers/files'
 import * as appConstants from './config/constants'
-import { name, messages } from './helpers/messages'
-
-interface Choices {
-  name: string,
-  value: string,
-  checked?: boolean
-}
+import { showWelcome } from './helpers/commons'
+import { Choices } from './interfaces/Questions'
 
 const init = async (): Promise<string> => {
-  const { welcome, thanks } = messages
-
-  const asciiArt = figlet.textSync(name, {
-    font: 'ANSI Shadow'
-  })
-  console.log(boxen(`\n ${chalk.green(asciiArt)}`, {
-      margin: 1,
-      // float: "center",
-      padding: 1,
-      borderStyle: "round",
-      borderColor: "gray",
-    }
-  ))
-  console.log(`${welcome} \n`)
+  showWelcome()
 
   const type = await askProjectType()
   const templateFiles = getFilesFromTemplate(type.projectType)
