@@ -14,7 +14,7 @@ RUN apt install -y openssl vim
 RUN git config --global http.sslverify false
 RUN git config --global http.postBuffer 524288000
         # Or set double value  1048576000
-RUN git config --global https.postBuffer 
+# RUN git config --global https.postBuffer 
 RUN git config --global core.compression -1 
 
 RUN \
@@ -29,3 +29,7 @@ let g:skip_defaults_vim = 1 \n \
 " turn of mouse \n \
 set mouse= \n \
 " other override settings go here ' >> /etc/vim/vimrc.local
+
+# go to /go/bin and install gopls
+# RUN go get -u -v golang.org/x/tools/cmd/gopls 2>&1
+
