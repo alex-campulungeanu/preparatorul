@@ -1,3 +1,5 @@
+# docker build  --build-arg http_proxy=<proxy> --build-arg https_proxy=<proxy> -t go_custom_img .
+
 FROM golang:1.21.4-bullseye
 
 ARG http_proxy
@@ -14,8 +16,8 @@ RUN apt install -y openssl vim
 RUN git config --global http.sslverify false
 RUN git config --global http.postBuffer 524288000
         # Or set double value  1048576000
-# RUN git config --global https.postBuffer 
-RUN git config --global core.compression -1 
+# RUN git config --global https.postBuffer
+RUN git config --global core.compression -1
 
 RUN \
     echo 'alias ls="ls --color=auto"' >> /root/.bashrc && \
@@ -30,6 +32,6 @@ let g:skip_defaults_vim = 1 \n \
 set mouse= \n \
 " other override settings go here ' >> /etc/vim/vimrc.local
 
-# go to /go/bin and install gopls
-# RUN go get -u -v golang.org/x/tools/cmd/gopls 2>&1
-
+# go to /go/bin and install packages needed
+# WORKDIR /go/bin
+# RUN go install golang.org/x/tools/gopls@latest 2>&1
