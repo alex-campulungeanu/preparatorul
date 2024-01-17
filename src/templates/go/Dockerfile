@@ -5,6 +5,7 @@ FROM golang:1.21.4-bullseye
 ARG http_proxy
 ARG https_proxy
 
+# watch out, i believe setting HTTP_PROXY and HTTPS_PROXY(with capital) will break things, so be carefully
 ENV http_proxy ${http_proxy}
 ENV https_proxy ${https_proxy}
 ENV GOINSECURE=*
